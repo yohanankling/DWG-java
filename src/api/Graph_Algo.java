@@ -8,8 +8,9 @@ import java.util.List;
 
 public class Graph_Algo implements DirectedWeightedGraphAlgorithms {
     private Graph graph;
-        public Graph_Algo() {
-            this.graph = new Graph();
+
+    public Graph_Algo() {
+        this.graph = new Graph();
         }
 
     @Override
@@ -69,7 +70,6 @@ public class Graph_Algo implements DirectedWeightedGraphAlgorithms {
         return reversedGr;
     }
 
-
     public static int dfs (DirectedWeightedGraph graph, int v, boolean visited [], int counter) {
         {
             visited[v] = true;
@@ -87,15 +87,17 @@ public class Graph_Algo implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public double shortestPathDist(int src, int dest) {
-        if (graph.getEdge(src,dest) == null)
-            return -1;
+        if (src == dest)
             return 0;
+
+
+        return -1;
     }
 
     @Override
     public List<NodeData> shortestPath(int src, int dest) {
         return null;
-    }
+        }
 
     @Override
     public NodeData center() {
@@ -114,15 +116,6 @@ public class Graph_Algo implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public boolean load(String file) {
-        try {
-            Gson gson = new Gson();
-            Reader reader = Files.newBufferedReader(Paths.get("G1.json"));
-            Graph_Algo gr = gson.fromJson(reader, Graph_Algo.class);
-            System.out.println(gr.toString());
-            reader.close();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
         return false;
     }
 
