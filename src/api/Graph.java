@@ -7,18 +7,12 @@ import java.util.*;
 public class Graph implements DirectedWeightedGraph {
     private HashMap<Integer,NodeData> nodes;
     private HashMap<Point2D,EdgeData> edges;
-    private int nodeCounter;
-    private int edgeCounter;
     private int mcCounter;
-
 
 
     public Graph(){
         this.nodes=new HashMap<Integer, NodeData>();
         this.edges=new HashMap<Point2D, EdgeData>();;
-        this.nodeCounter=nodes.size();
-        this.nodeCounter=0;
-        this.edgeCounter=0;
         this.mcCounter=0;
 
     }
@@ -31,7 +25,9 @@ public class Graph implements DirectedWeightedGraph {
     @Override
     public EdgeData getEdge(int src, int dest) {
         Point2D p1 =new Point(src,dest);
+        if (edges.get(p1)!= null )
         return edges.get(p1);
+        else return null;
     }
 
     public EdgeData getEdge(int i) {
@@ -39,14 +35,18 @@ public class Graph implements DirectedWeightedGraph {
     }
 
     public EdgeData addEdge(int i) {
-        Point2D p1 =new Point(edges.get(i).getSrc(),edges.get(i).getDest());
-        return edges.put(p1,edges.get(i));
+        try {
+            Point2D p1 =new Point(edges.get(i).getSrc(),edges.get(i).getDest());
+            return edges.put(p1,edges.get(i));
+        }
+        catch (Exception e){
+            return null;
+        }
     }
 
     @Override
     public void addNode(NodeData n) {
     nodes.put(n.getKey(),n);
-    nodeCounter = nodeCounter + 1;
     mcCounter = mcCounter + 1;
     }
 
@@ -55,7 +55,6 @@ public class Graph implements DirectedWeightedGraph {
         Edge newEdge = new Edge(src , dest, w);
         Point2D p1 =new Point(src,dest);
         edges.put(p1,newEdge);
-        edgeCounter = edgeCounter + 1;
         mcCounter = mcCounter + 1;
     }
 
@@ -93,16 +92,14 @@ public class Graph implements DirectedWeightedGraph {
     @Override
     public NodeData removeNode(int key) {
         Node node = (Node) this.getNode(key);
-        int k = nodes.get(key).getKey();
         for (int i = 0; i < edges.size(); i++) {
             int src = edges.get(i).getSrc();
             int dest = edges.get(i).getDest();
-            if (src == k || dest == k) {
-                Node e= (Node) removeEdge(src, dest);
+            if (src == key || dest == key) {
+                removeEdge(src, dest);
             }
         }
         mcCounter = mcCounter + 1;
-        nodeCounter = nodeCounter - 1;
         nodes.remove(key);
         return node;
     }
@@ -112,19 +109,18 @@ public class Graph implements DirectedWeightedGraph {
         Point2D p1 =new Point(src,dest);
         Edge edge = (Edge) getEdge(src, dest);
         edges.remove(p1);
-        edgeCounter = edgeCounter - 1;
         mcCounter = mcCounter + 1;
         return edge;
     }
 
     @Override
     public int nodeSize() {
-        return nodeCounter;
+        return nodes.size();
     }
 
     @Override
     public int edgeSize() {
-        return edgeCounter;
+        return edges.size();
     }
 
     @Override
