@@ -114,6 +114,14 @@ public class Graph implements DirectedWeightedGraph {
     }
 
     @Override
+    public String toString() {
+        return "Graph{" +
+                "nodes=" + nodes +
+                ", edges=" + edges +
+                '}';
+    }
+
+    @Override
     public int nodeSize() {
         return nodes.size();
     }
@@ -127,4 +135,5 @@ public class Graph implements DirectedWeightedGraph {
     public int getMC() {
         return mcCounter;
     }
+
 }
