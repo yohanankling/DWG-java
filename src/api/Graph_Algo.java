@@ -1,10 +1,8 @@
 package api;
-
-import java.nio.file.*;
 import java.util.*;
-import com.google.gson.*;
 import java.io.*;
 import java.util.List;
+import com.google.gson.Gson;
 
 public class Graph_Algo implements DirectedWeightedGraphAlgorithms {
     private Graph graph;
@@ -51,9 +49,7 @@ public class Graph_Algo implements DirectedWeightedGraphAlgorithms {
         for (int i = 0; i < graph.nodeSize(); i++)
             visited[i] = false;
         count = dfs(reversedGr, 0, visited,count);
-        if(count < graph.nodeSize())
-            return false;
-        return true;
+        return count >= graph.nodeSize();
     }
 
     public Graph reversedGraph(Graph graph) {
@@ -70,13 +66,13 @@ public class Graph_Algo implements DirectedWeightedGraphAlgorithms {
         return reversedGr;
     }
 
-    public static int dfs (DirectedWeightedGraph graph, int v, boolean visited [], int counter) {
+    public static int dfs (DirectedWeightedGraph graph, int v, boolean[] visited, int counter) {
         {
             visited[v] = true;
             Iterator<EdgeData> edges = graph.edgeIter(v);
             while (edges.hasNext()) {
                 int dest = edges.next().getDest();
-                if (visited[dest] == false) {
+                if (!visited[dest]) {
                     counter++;
                     dfs(graph, dest, visited, counter);
                 }
@@ -85,33 +81,171 @@ public class Graph_Algo implements DirectedWeightedGraphAlgorithms {
     return counter;
     }
 
+
     @Override
     public double shortestPathDist(int src, int dest) {
-        if (src == dest)
-            return 0;
+        int pointer = 0;
+        double ans = 0;
+        Graph gr = new Graph();
+        gr = (Graph) copy();
+        double[] dist = new double [gr.nodeSize()];
+        for (int i = 0; i<gr.nodeSize(); i++){
+            dist[i]=(Double.POSITIVE_INFINITY);
+            gr.getNode(i).setTag(-1);
+        }
+        dist[src]=0;
+        double min = Double.POSITIVE_INFINITY;
+        Iterator<EdgeData> node = gr.edgeIter(src);
+        while(node.hasNext()){
+            dist[node.next().getDest()] = node.next().getWeight();
+            node.next().setTag(src);
+            if (node.next().getWeight()<min){
+                min = node.next().getWeight();
+                pointer = node.next().getDest();
+            }
+            node = (Iterator<EdgeData>) node.next();
+        }
+        gr.removeNode(src);
+        for (int i = 0 ; i < gr.nodeSize()-1;i++){
+            node = gr.edgeIter(pointer);
+            while(node.hasNext()) {
+                if (dist[node.next().getSrc()] == Double.POSITIVE_INFINITY || dist[pointer] + gr.getEdge(pointer,node.next().getDest()).getWeight() < dist[node.next().getDest()]) {
+                    dist[node.next().getDest()] = dist[pointer] + gr.getEdge(pointer,node.next().getDest()).getWeight();
+                    gr.getNode(node.next().getDest()).setTag(node.next().getSrc());
+                }
+            }
+            gr.removeNode(pointer);
+            pointer = i ;
+        }
 
-
-        return -1;
+        while (graph.getNode(dest).getTag() != src) {
+            ans = ans + dist[dest];
+            dest = graph.getNode(dest).getTag();
+        }
+        return ans;
     }
 
     @Override
     public List<NodeData> shortestPath(int src, int dest) {
-        return null;
+        List<NodeData> ans = new LinkedList<>();
+        int pointer = 0;
+        Graph gr = new Graph();
+        gr = (Graph) copy();
+        double[] dist = new double [gr.nodeSize()];
+        for (int i = 0; i<gr.nodeSize(); i++){
+            dist[i]=(Double.POSITIVE_INFINITY);
+            gr.getNode(i).setTag(-1);
         }
+        dist[src]=0;
+        double min = Double.POSITIVE_INFINITY;
+        Iterator<EdgeData> node = gr.edgeIter(src);
+        while(node.hasNext()){
+            dist[node.next().getDest()] = node.next().getWeight();
+            node.next().setTag(src);
+            if (node.next().getWeight()<min){
+                min = node.next().getWeight();
+                pointer = node.next().getDest();
+            }
+            node = (Iterator<EdgeData>) node.next();
+        }
+        gr.removeNode(src);
+        for (int i = 0 ; i < gr.nodeSize()-1;i++){
+            node = gr.edgeIter(pointer);
+            while(node.hasNext()) {
+                if (dist[node.next().getSrc()] == Double.POSITIVE_INFINITY || dist[pointer] + gr.getEdge(pointer,node.next().getDest()).getWeight() < dist[node.next().getDest()]) {
+                    dist[node.next().getDest()] = dist[pointer] + gr.getEdge(pointer,node.next().getDest()).getWeight();
+                    gr.getNode(node.next().getDest()).setTag(node.next().getSrc());
+                }
+            }
+            gr.removeNode(pointer);
+            pointer = i ;
+        }
+        ans.add(graph.getNode(dest));
+        while (graph.getNode(dest).getTag() != src) {
+            ans.add(graph.getNode(dest));
+            dest = graph.getNode(dest).getTag();
+        }
+        ans.add(graph.getNode(src));
+        Collections.reverse(ans);
+        return ans;
+    }
 
     @Override
     public NodeData center() {
-        return null;
-    }
+        if (!this.isConnected()) {
+            return null;
+        }
+        double[] dist = new double[graph.nodeSize()];
+        for (int i = 0; i < graph.nodeSize(); i++) {
+            dist[i] =0;
+            for (int j = 0; j < graph.nodeSize(); j++) {
+                dist [i] = dist[i]+shortestPathDist(i,j);
+            }
+        }
+        int pointer =0;
+        double ans =Double.MAX_VALUE;
+        for (int i = 0; i < graph.nodeSize(); i++) {
+            if (dist[i]<ans){
+                ans = dist[i];
+                pointer = i;
+            }
+        }
+        return graph.getNode(pointer);
+        }
 
     @Override
     public List<NodeData> tsp(List<NodeData> cities) {
-        return null;
-    }
+        List<NodeData> ans = new LinkedList<>();
+        Graph gr = new Graph();
+        gr = (Graph) copy();
+        double min =Double.POSITIVE_INFINITY;
+        int pointer = 0;
+        int currNode;
+        double[] dist = new double[cities.size()];
+        for (int i = 0; i < cities.size(); i++) {
+        dist [i]=0;
+        }
+        for (int j = 0; j <cities.size(); j++) {
+            currNode = pointer;
+            gr = (Graph) copy();
+            for (int i = 0; i < cities.size() - 1; i++) {
+                Iterator<EdgeData> node = gr.edgeIter(pointer);
+                while (node.hasNext()) {
+                    if (node.next().getWeight() < min) {
+                        min = node.next().getWeight();
+                        pointer = node.next().getDest();
+                        dist[j] = dist[j] + gr.getNode(node.next().getDest()).getWeight();
+                    }
+                }
+                gr.removeNode(currNode);
+            }
+        }
+        min = Double.POSITIVE_INFINITY;
+        for (int j = 0; j <cities.size(); j++) {
+            if (dist[j]<min){
+                min = dist[j];
+                pointer = j;
+            }
+        }
+        ans.add(graph.getNode(pointer));
+        for (int i = 0; i < cities.size() ; i++) {
+            currNode = pointer;
+            Iterator<EdgeData> node = gr.edgeIter(pointer);
+            while (node.hasNext()) {
+                if (node.next().getWeight() < min) {
+                    min = node.next().getWeight();
+                    pointer = node.next().getDest();
+                }
 
+            }
+            ans.add(graph.getNode(pointer));
+            gr.removeNode(currNode);
+        }
+            return ans;
+    }
     @Override
     public boolean save(String file) {
-        return false;
+        return true;
     }
 
     @Override
