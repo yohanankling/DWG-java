@@ -1,4 +1,5 @@
 # oop_Ex2
+# important! for load and save you must to import the jar in src folder!
 # Directed Weighted Graph
 
 In this project we wrote a code for getting graphs from json file and save them after implementing some functions.
