@@ -1,7 +1,8 @@
 # oop_Ex2
-# important! for load and save you must to import the jar in src folder!
+# Important! for load and save you must to import the jar in src folder!
+# Assignment of oop_Ex2
+https://docs.google.com/document/d/17h5VGIHtqWHrzgoRjH05_PjHgCn8-EDcecrkR9sVChQ/edit
 # Directed Weighted Graph
-
 In this project we wrote a code for getting graphs from json file and save them after implementing some functions.
 
 Features of our algorithm :
