@@ -197,7 +197,9 @@ public class Graph_Algo implements DirectedWeightedGraphAlgorithms {
         for (int i = 0; i < graph.nodeSize(); i++) {
             dist[i] =0;
             for (int j = 0; j < graph.nodeSize(); j++) {
-                dist [i] = dist[i]+shortestPathDist(i,j);
+                double distance =shortestPathDist(i,j);
+                if(dist[i] < distance)
+                    dist[i] = distance;
             }
         }
         int pointer =0;
@@ -266,16 +268,16 @@ public class Graph_Algo implements DirectedWeightedGraphAlgorithms {
     @Override
     public boolean save(String file) {
             try {
-                FileWriter json_file = new FileWriter(file);
-                BufferedWriter b = new BufferedWriter(json_file);
-                b.write(this.graph.toString());
-                b.close();
-                json_file.close();
+                FileWriter f = new FileWriter(file);
+                BufferedWriter bufferedWriter = new BufferedWriter(f);
+                bufferedWriter.write(this.graph.toString());
+                bufferedWriter.close();
+                f.close();
+                return true;
             } catch (IOException e) {
                 e.printStackTrace();
                 return false;
             }
-            return true;
         }
 
 
