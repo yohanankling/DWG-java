@@ -258,13 +258,13 @@ public class Graph_Algo implements DirectedWeightedGraphAlgorithms {
                     min = edge.getWeight();
                     pointer = edge.getDest();
                 }
-
             }
             ans.add(graph.getNode(pointer));
             gr.removeNode(currNode);
         }
             return ans;
     }
+    
     @Override
     public boolean save(String file) {
             try {
