@@ -34,12 +34,10 @@ public class GUI extends JFrame {
 
 
     public GUI(Graph_Algo alg) {
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
         graphAlgo = new Graph_Algo();
         graph = new Graph();
         graph = (Graph) alg.getGraph();
         graphAlgo.init(graph);
-        frame = new NewFrame(graph);
         f = new JFrame("Menu");
 
         mb = new JMenuBar();
@@ -51,8 +49,8 @@ public class GUI extends JFrame {
         Graph = new JMenu("edit");
         add_node = new JMenuItem("add node");
         add_edge = new JMenuItem("add edge");
-        remove_node = new JMenuItem("remove edge");
-        remove_edge = new JMenuItem("remove node");
+        remove_node = new JMenuItem("remove node");
+        remove_edge = new JMenuItem("remove edge");
 
 
         algorithm = new JMenu("algorithm");
@@ -86,7 +84,6 @@ public class GUI extends JFrame {
                 {
                     graphAlgo.load(chooser.getSelectedFile().getAbsolutePath());
                     setVisible(false);
-                    new GUI(graphAlgo);
                 }
             }
         });
@@ -115,7 +112,6 @@ public class GUI extends JFrame {
             }
                 setVisible(false);
                 graphAlgo.init(graph);
-                new GUI((graphAlgo));
         }
     });
         Graph.add(add_node);
@@ -130,7 +126,7 @@ public class GUI extends JFrame {
                 Node n1 = (Node) graphAlgo.getGraph().getNode(node1);
                 Node n2 = (Node) graphAlgo.getGraph().getNode(node2);
                 if (n1 == null || n2 == null)
-                    JOptionPane.showInputDialog("one of the nodes do not exist!");
+                    JOptionPane.showMessageDialog(frame, "one of the nodes do not exist!");
                 else {
                 dialogP = JOptionPane.showInputDialog(frame, "enter the edge weight. example : 5.2", null);
                 double w = Double.parseDouble(dialogP);
@@ -145,7 +141,6 @@ public class GUI extends JFrame {
                 }
                 setVisible(false);
                 graphAlgo.init(graph);
-                new GUI((graphAlgo));
             }}
         });
         Graph.add(add_edge);
@@ -153,16 +148,15 @@ public class GUI extends JFrame {
         remove_node.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                String dialogP = JOptionPane.showInputDialog(frame, "enter the node id you want to disconnect", null);
+                String dialogP = JOptionPane.showInputDialog("enter the node id you want to disconnect", null);
                 int node1 = Integer.parseInt(dialogP);
                 Node n1 = (Node) graphAlgo.getGraph().getNode(node1);
                 if (n1 == null )
-                    JOptionPane.showInputDialog("the node does not exist!");
+                    JOptionPane.showMessageDialog(frame, "the node does not exist!");
                 else {
                     graph.removeNode(node1);
                     setVisible(false);
                     graphAlgo.init(graph);
-                    new GUI((graphAlgo));
                 }}
         });
         Graph.add(remove_node);
@@ -177,14 +171,13 @@ public class GUI extends JFrame {
                 Node n1 = (Node) graphAlgo.getGraph().getNode(node1);
                 Node n2 = (Node) graphAlgo.getGraph().getNode(node2);
                 if (n1 == null || n2 == null)
-                    JOptionPane.showInputDialog("one of the nodes do not exist!");
+                    JOptionPane.showMessageDialog(frame, "one of the nodes do not exist!");
                 else {
                 dialogP = JOptionPane.showInputDialog(frame, "enter the edge weight. example : 5.2", null);
                 double w = Double.parseDouble(dialogP);
                 graph.connect(node1,node2,w);
                 setVisible(false);
                 graphAlgo.init(graph);
-                new GUI((graphAlgo));
             }}
         });
         Graph.add(remove_edge);
@@ -194,9 +187,9 @@ public class GUI extends JFrame {
             public void actionPerformed(ActionEvent e){
                 boolean ans = graphAlgo.isConnected();
                 if (ans)
-                    JOptionPane.showInputDialog("the graph is connected!");
+                    JOptionPane.showMessageDialog(frame, "the graph is connected!");
                 else {
-                    JOptionPane.showInputDialog("the graph is not connected!");
+                    JOptionPane.showMessageDialog(frame, "the graph is not connected!");
                 }}
         });
         algorithm.add(isConnected);
@@ -211,10 +204,10 @@ public class GUI extends JFrame {
                 Node n1 = (Node) graphAlgo.getGraph().getNode(node1);
                 Node n2 = (Node) graphAlgo.getGraph().getNode(node2);
                 if (n1 == null || n2 == null)
-                    JOptionPane.showInputDialog("one of the nodes do not exist!");
+                    JOptionPane.showMessageDialog(frame, "one of the nodes do not exist!");
                 else {
                     double ans = graphAlgo.shortestPathDist(node1,node2);
-                    JOptionPane.showInputDialog("the shortest distance is:"+ans);
+                    JOptionPane.showMessageDialog(frame, "the shortest distance is:"+ans);
                 }}
         });
         algorithm.add(shortestPathDist);
@@ -229,10 +222,10 @@ public class GUI extends JFrame {
                 Node n1 = (Node) graphAlgo.getGraph().getNode(node1);
                 Node n2 = (Node) graphAlgo.getGraph().getNode(node2);
                 if (n1 == null || n2 == null)
-                    JOptionPane.showInputDialog("one of the nodes do not exist!");
+                    JOptionPane.showMessageDialog(frame, "one of the nodes do not exist!");
                 else {
                     List<NodeData> ans = graphAlgo.shortestPath(node1,node2);
-                    JOptionPane.showInputDialog("the shortest is through the nodes:"+ans);
+                    JOptionPane.showMessageDialog(frame, "the shortest is through the nodes:"+ans);
                 }}
         });
         algorithm.add(shortestPath);
@@ -241,8 +234,8 @@ public class GUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e){
                 Node n2 = (Node) graphAlgo.center();
-                JOptionPane.showInputDialog("the center of the grpah is node:"+ n2.getKey());
-                }
+                JOptionPane.showMessageDialog(frame,"the center of the grpah is node:"+ n2.getKey());
+             }
         });
         algorithm.add(center);
 
@@ -256,11 +249,12 @@ public class GUI extends JFrame {
                     Node n1 = (Node) graphAlgo.getGraph().getNode(node1);
                     if (n1 != null)
                     cities.add(n1);
-                    else JOptionPane.showInputDialog("the node doesnt exist! keep entering");
+                    else JOptionPane.showMessageDialog(frame,"the node doesnt exist! keep entering");
+
                 }
                 List<NodeData> ans = graphAlgo.tsp(cities);
-                JOptionPane.showInputDialog("the shortest is through the nodes:"+ans);
-                }
+                JOptionPane.showMessageDialog(frame, "the shortest is through the nodes:"+ans);
+             }
         });
         algorithm.add(tsp);
 
@@ -268,13 +262,15 @@ public class GUI extends JFrame {
         mb.add(Graph);
         mb.add(algorithm);
         f.setJMenuBar(mb);
-        f.setBackground(Color.WHITE);
         f.setSize(500, 500);
-        f.setVisible(true);
-        this.setTitle("Ex2 - Graphs");
-        this.setLayout(new BorderLayout());
+        f.setTitle("Ex2 - Graphs");
+        f.setLayout(new BorderLayout());
         frame = new NewFrame(graph);
-        this.add(frame);
+        f.add(frame);
+        f.setVisible(true);
+        f.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        repaint();
+
     }
 
     public static void main(String[] args) {
