@@ -275,7 +275,6 @@ public class GUI extends JFrame {
         this.setLayout(new BorderLayout());
         frame = new NewFrame(graph);
         this.add(frame);
-        repaint();
     }
 
     public static void main(String[] args) {
