@@ -12,21 +12,26 @@ public class NewFrame extends JPanel
     Graph_Algo graphAlgo;
     Graph graph;
     Graphics2D g2d;
+    Color c;
 
     public NewFrame (Graph graph)
     {
+        super();
         this.setBackground(new Color(1, 150, 150));
+        c = Color.MAGENTA;
         graphAlgo = new Graph_Algo();
         this.graph = graph;
         graphAlgo.init((DirectedWeightedGraph) graph);
-        paint();
     }
 
-    public void paint()
-    {
-        Graphics2D ggg = (Graphics2D) g2d;
+    @Override
+    public void paintComponents(Graphics g) {
+        super.paintComponents(g);
+//    public void paint(Graph graph)
+//    {
+        Graphics2D ggg = (Graphics2D) g;
         Iterator<NodeData> nodeIter= graph.nodeIter();
-        g2d.setColor(Color.MAGENTA);
+        ggg.setColor(Color.MAGENTA);
         while(nodeIter.hasNext())
         {
             Node node = (Node) nodeIter.next();
