@@ -5,50 +5,57 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.util.Iterator;
 import java.awt.Graphics2D;
-
+import java.awt.geom.Ellipse2D;
 
 public class NewFrame extends JPanel
 {
     Graph_Algo graphAlgo;
     Graph graph;
-    Graphics2D g2d;
-    Color c;
+    Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+    int HEIGHT = size.height;
+    int WIDTH = size.width;
 
     public NewFrame (Graph graph)
     {
-        super();
         this.setBackground(new Color(1, 150, 150));
-        c = Color.MAGENTA;
         graphAlgo = new Graph_Algo();
         this.graph = graph;
         graphAlgo.init((DirectedWeightedGraph) graph);
+
     }
 
-    @Override
-    public void paintComponents(Graphics g) {
-        super.paintComponents(g);
-//    public void paint(Graph graph)
-//    {
-        Graphics2D ggg = (Graphics2D) g;
+    public void paint(Graphics g) {
+        Graphics2D pen= (Graphics2D) g.create();
         Iterator<NodeData> nodeIter= graph.nodeIter();
-        ggg.setColor(Color.MAGENTA);
-        while(nodeIter.hasNext())
-        {
-            Node node = (Node) nodeIter.next();
-            Point2D p1 = new Point2D.Double(node.getLocation().x(),node.getLocation().y());
-        g2d.fill((Shape) p1);}
-
+        while(nodeIter.hasNext()) {
+            drawPoints(nodeIter.next(),pen);
+        }
         Iterator<EdgeData> edgeIter= graph.edgeIter();
         while (edgeIter.hasNext())
         {
-            EdgeData edge = edgeIter.next();
-            Node n1 = (Node) graph.getNode(edge.getSrc());
-            Node n2 = (Node) graph.getNode(edge.getDest());
-            Point2D p1 = new Point2D.Double(n1.getLocation().x(),n1.getLocation().y());
-            Point2D p2 = new Point2D.Double(n2.getLocation().x(),n2.getLocation().y());
-                g2d.drawLine((int) p1.getX(), (int)p1.getY(),(int) p2.getX(), (int) p2.getY());
+            drawEdges(edgeIter.next(),pen);
             }
         this.setVisible(true);
+    }
+
+    private void drawPoints(NodeData node, Graphics2D pen) {
+        pen.setColor(Color.MAGENTA);
+        double x = node.getLocation().x();
+        double y = node.getLocation().y();
+        pen.fillOval((int) x, (int) y , 15, 15);
+        pen.setColor(Color.black);
+        pen.drawString("" + node.getKey(),(int)x,(int)y);
+    }
+
+    private void drawEdges(EdgeData edge, Graphics2D pen) {
+        pen.setColor(Color.black);
+        Node src = (Node) graph.getNode(edge.getSrc());
+        Node dest = (Node) graph.getNode(edge.getDest());
+        int Xsrc = (int) src.getLocation().x();
+        int Ysrc = (int) src.getLocation().y();
+        int Xdest =(int)  dest.getLocation().x();
+        int Ydest =(int)  dest.getLocation().y();
+        pen.drawLine(Xsrc,Ysrc,Xdest,Ydest);
     }
 
 }
