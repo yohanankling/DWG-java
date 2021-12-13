@@ -8,7 +8,6 @@ import java.util.List;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -34,8 +33,21 @@ public class Graph_Algo implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public DirectedWeightedGraph copy() {
-        return new Graph(this.graph);
-
+        HashMap<Integer,NodeData> nodesMap =new HashMap<Integer, NodeData>();
+        Iterator nodes = graph.nodeIter();
+        while (nodes.hasNext()){
+            Node node = (Node) nodes.next();
+            nodesMap.put(node.getKey(),node);
+        }
+        HashMap<Point2D,EdgeData> edgesMap =new HashMap<Point2D, EdgeData>();
+        Iterator edges = graph.edgeIter();
+        while (edges.hasNext()){
+            Edge edge = (Edge) edges.next();
+            Point2D p1 = new Point(edge.getSrc(),edge.getDest());
+            edgesMap.put(p1,edge);
+        }
+        DirectedWeightedGraph graph = new Graph(edgesMap,nodesMap);
+        return graph;
     }
 
     @Override
@@ -122,10 +134,11 @@ public class Graph_Algo implements DirectedWeightedGraphAlgorithms {
             gr.removeNode(pointer);
             pointer = i ;
         }
-
-        while (graph.getNode(dest).getTag() != src) {
+        Node nodeDest = (Node) graph.getNode(dest);
+        while (nodeDest!= null && nodeDest.getTag() != src) {
             ans = ans + dist[dest];
             dest = graph.getNode(dest).getTag();
+            nodeDest = (Node) graph.getNode(dest);
         }
         return ans;
     }
@@ -167,9 +180,12 @@ public class Graph_Algo implements DirectedWeightedGraphAlgorithms {
             pointer = i ;
         }
         ans.add(graph.getNode(dest));
-        while (graph.getNode(dest).getTag() != src) {
+
+        Node nodeDest = (Node) graph.getNode(dest);
+        while (nodeDest!= null && nodeDest.getTag() != src) {
             ans.add(graph.getNode(dest));
             dest = graph.getNode(dest).getTag();
+            nodeDest = (Node) graph.getNode(dest);
         }
         ans.add(graph.getNode(src));
         Collections.reverse(ans);
