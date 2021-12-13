@@ -22,6 +22,22 @@ public class Graph implements DirectedWeightedGraph {
         this.mcCounter=0;
     }
 
+    public Graph(Graph graph) {
+        Iterator nodes = nodeIter();
+        while (nodes.hasNext())
+            {
+                Node node = (Node) nodes.next();
+                this.addNode(node);
+                        }
+        Iterator edges = nodeIter();
+        while (edges.hasNext())
+        {
+            Edge edge = (Edge) edges.next();
+            this.connect(edge.getSrc(),edge.getDest(),edge.getWeight());
+        }
+        mcCounter=0;
+    }
+
     @Override
     public NodeData getNode(int key) {
         return nodes.get(key);
@@ -39,20 +55,15 @@ public class Graph implements DirectedWeightedGraph {
         return edges.get(i);
     }
 
-    public EdgeData addEdge(int i) {
-        try {
-            Point2D p1 =new Point(edges.get(i).getSrc(),edges.get(i).getDest());
-            return edges.put(p1,edges.get(i));
-        }
-        catch (Exception e){
-            return null;
-        }
-    }
-
     @Override
     public void addNode(NodeData n) {
-    nodes.put(n.getKey(),n);
-    mcCounter = mcCounter + 1;
+        if(this.nodes.get(n.getKey())!=null)
+        {
+            this.removeNode(n.getKey());
+            this.nodes.remove(n.getKey());
+        }
+        this.nodes.put(n.getKey(),(Node) n);
+        mcCounter = mcCounter + 1;
     }
 
     @Override
@@ -97,11 +108,14 @@ public class Graph implements DirectedWeightedGraph {
     @Override
     public NodeData removeNode(int key) {
         Node node = (Node) this.getNode(key);
-        for (int i = 0; i < edges.size(); i++) {
-            int src = edges.get(i).getSrc();
-            int dest = edges.get(i).getDest();
-            if (src == key || dest == key) {
+        Iterator edges = edgeIter();
+        while (edges.hasNext()){
+            Edge tmp =  (Edge) edges.next();
+            int src = tmp.getSrc();
+            int dest = tmp.getDest();
+            if (src == key || dest == key){
                 removeEdge(src, dest);
+                edges = edgeIter();
             }
         }
         mcCounter = mcCounter + 1;
