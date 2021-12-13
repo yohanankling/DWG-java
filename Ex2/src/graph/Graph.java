@@ -97,11 +97,14 @@ public class Graph implements DirectedWeightedGraph {
     @Override
     public Iterator<EdgeData> edgeIter(int node_id) {
         HashMap<Point2D, EdgeData> connectedEdges =new HashMap<Point2D, EdgeData>();
-        for (int i = 0 ; i<edges.size();i++){
-            if (edges.get(i).getSrc() == node_id){
-                Point2D p1 =new Point(edges.get(i).getSrc(),edges.get(i).getDest());
-            connectedEdges.put(p1,edges.get(i));
-        }}
+        Iterator edges = this.edgeIter();
+        while (edges.hasNext()){
+            Edge edge = (Edge) edges.next();
+            if (edge.getSrc() == node_id){
+                Point2D p1 =new Point(edge.getSrc(),edge.getDest());
+                connectedEdges.put(p1,edge);
+            }
+        }
         return connectedEdges.values().iterator();
     }
 
