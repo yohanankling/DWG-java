@@ -1,9 +1,11 @@
-package api;
+package tests;
 import graph.Location;
 import graph.Node;
 //import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import graph.*;
+import api.*;
 
 class NodeDataTest {
     Location location1 = new Location(0,0,0);
