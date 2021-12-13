@@ -1,5 +1,7 @@
 import api.*;
 import graph.*;
+import java.util.Iterator;
+
 /**
  * This class is the main class for Ex2 - your implementation will be tested using this class.
  */
@@ -44,7 +46,6 @@ public class Ex2 {
         // ****** Add your code here ******
         alg = getGrapgAlgo(json_file);
         GUI win = new GUI((Graph_Algo) alg);
-
         // ********************************
     }
 
@@ -53,8 +54,5 @@ public class Ex2 {
             runGUI(args[0]);
         }
         runGUI("src/graph/G1.json");
-        //DirectedWeightedGraphAlgorithms grrr = getGrapgAlgo("src/graph/G1.json");
-        //System.out.println(grrr.center());
-//        a.save("gasfasf.json");
     }
 }
