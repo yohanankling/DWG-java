@@ -22,22 +22,6 @@ public class Graph implements DirectedWeightedGraph {
         this.mcCounter=0;
     }
 
-    public Graph(Graph graph) {
-        Iterator nodes = nodeIter();
-        while (nodes.hasNext())
-            {
-                Node node = (Node) nodes.next();
-                this.addNode(node);
-                        }
-        Iterator edges = nodeIter();
-        while (edges.hasNext())
-        {
-            Edge edge = (Edge) edges.next();
-            this.connect(edge.getSrc(),edge.getDest(),edge.getWeight());
-        }
-        mcCounter=0;
-    }
-
     @Override
     public NodeData getNode(int key) {
         return nodes.get(key);
@@ -57,6 +41,7 @@ public class Graph implements DirectedWeightedGraph {
 
     @Override
     public void addNode(NodeData n) {
+        int key = n.getKey();
         if(this.nodes.get(n.getKey())!=null)
         {
             this.removeNode(n.getKey());
