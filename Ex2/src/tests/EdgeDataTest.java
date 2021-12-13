@@ -1,9 +1,10 @@
 package tests;
-import graph.Edge;
-import org.junit.jupiter.api.Test;
+
+import java.util.Iterator;
 import static org.junit.jupiter.api.Assertions.*;
 import graph.*;
 import api.*;
+import org.junit.jupiter.api.Test;
 
 class EdgeDataTest {
     Edge edge1 = new Edge(3,5,2.7,"Tzach",7);
