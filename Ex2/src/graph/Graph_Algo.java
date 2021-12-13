@@ -70,14 +70,15 @@ public class Graph_Algo implements DirectedWeightedGraphAlgorithms {
 
     public Graph reversedGraph(Graph graph) {
         Graph reversedGr = new Graph();
-        for (int i = 0; i < graph.nodeSize(); i++) {
-            reversedGr.addNode(graph.getNode(i));
+        Iterator nodes = graph.nodeIter();
+        while (nodes.hasNext()){
+            Node node = (Node) nodes.next();
+            reversedGr.addNode(node);
         }
-        for (int i = 0; i < graph.edgeSize(); i++) {
-            int src = graph.getEdge(i).getDest();
-            int dest = graph.getEdge(i).getSrc();
-            double weight = graph.getEdge(i).getWeight();
-            reversedGr.connect(src,dest,weight);
+        Iterator edges = graph.nodeIter();
+        while (edges.hasNext()){
+            Edge edge = (Edge) edges.next();
+            reversedGr.connect(edge.getSrc(),edge.getDest(),edge.getWeight());
         }
         return reversedGr;
     }
