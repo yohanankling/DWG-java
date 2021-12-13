@@ -251,7 +251,11 @@ public class GUI extends JFrame {
                     JOptionPane.showMessageDialog(frame, "one of the nodes do not exist!");
                 else {
                     List<NodeData> ans = graphAlgo.shortestPath(node1,node2);
-                    JOptionPane.showMessageDialog(frame, "the shortest is through the nodes:"+ans);
+                    List<Integer> ansKey = new LinkedList<>();
+                    for (int i = 0; i < ans.size() -1; i++) {
+                         ansKey.add(ans.get(i).getKey());
+                    }
+                    JOptionPane.showMessageDialog(frame, "the shortest is through the nodes:"+ansKey);
                 }}
         });
         algorithm.add(shortestPath);
@@ -273,13 +277,24 @@ public class GUI extends JFrame {
                 int node1 = Integer.parseInt(dialogP);
                 while (node1 != -1){
                     Node n1 = (Node) graphAlgo.getGraph().getNode(node1);
-                    if (n1 != null)
+                    if (n1 != null){
                     cities.add(n1);
-                    else JOptionPane.showMessageDialog(frame,"the node doesnt exist! keep entering");
+                    dialogP = JOptionPane.showInputDialog(frame, "enter the id's to check the path, for finish enter '-1' ", null);
+                    node1 = Integer.parseInt(dialogP);}
+                    else{
+                        dialogP = JOptionPane.showInputDialog(frame, "the node doesnt exist! enter the id's to check the path, for finish enter '-1' ", null);
+                        node1 = Integer.parseInt(dialogP);
+                    }
 
                 }
                 List<NodeData> ans = graphAlgo.tsp(cities);
-                JOptionPane.showMessageDialog(frame, "the shortest is through the nodes:"+ans);
+                List<Integer> ansKey = new LinkedList<>();
+                for (int i = 0; i < ans.size() -1; i++) {
+                    System.out.println(ans.get(i));
+                    ansKey.add(ans.get(i).getKey());
+                    System.out.println(ansKey.get(i));
+                }
+                JOptionPane.showMessageDialog(frame, "the shortest is through the nodes:"+ansKey);
              }
         });
         algorithm.add(tsp);
