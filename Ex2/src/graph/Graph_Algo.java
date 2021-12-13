@@ -24,17 +24,9 @@ public class Graph_Algo implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public void init(DirectedWeightedGraph g) {
-        for (int i = 0 ; i< g.nodeSize() ; i++)
-            this.graph.addNode(g.getNode(i));
-        Iterator<EdgeData> edges = g.edgeIter();
-        while (edges.hasNext()){
-            Edge edge = new Edge(edges.next());
-            int src =edge.getSrc();
-            int dest =edge.getDest();
-            double w =edge.getWeight();
-            this.graph.connect(src,dest,w);
-             }
+      this.graph= (Graph) g;
     }
+
     @Override
     public DirectedWeightedGraph getGraph() {
     return this.graph;
@@ -42,12 +34,8 @@ public class Graph_Algo implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public DirectedWeightedGraph copy() {
-        Graph copy = new Graph();
-        for (int i = 0 ; i< graph.nodeSize() ; i++)
-            copy.addNode(graph.getNode(i));
-        for (int i = 0 ; i< graph.edgeSize() ; i++)
-            copy.addEdge(i);
-        return copy;
+        return new Graph(this.graph);
+
     }
 
     @Override
