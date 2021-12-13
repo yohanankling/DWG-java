@@ -83,8 +83,8 @@ public class GUI extends JFrame {
                 {
                     graphAlgo.load(chooser.getSelectedFile().getAbsolutePath());
                     f.setVisible(false);
+                    f.remove(frame);
                     graph = (Graph) graphAlgo.getGraph();
-                    graphAlgo.init(graph);
                     frame = new NewFrame(graph);
                     f.add(frame);
                     f.setVisible(true);
@@ -116,6 +116,7 @@ public class GUI extends JFrame {
                     graph.addNode(tmp);
             }
                 f.setVisible(false);
+                f.remove(frame);
                 graphAlgo.init(graph);
                 graph = (Graph) graphAlgo.getGraph();
                 frame = new NewFrame(graph);
@@ -149,7 +150,8 @@ public class GUI extends JFrame {
                     graph.connect(node1,node2,w);
                 }
                 f.setVisible(false);
-                graphAlgo.init(graph);
+                    f.remove(frame);
+                    graphAlgo.init(graph);
                 graph = (Graph) graphAlgo.getGraph();
                 frame = new NewFrame(graph);
                 f.add(frame);
@@ -171,6 +173,7 @@ public class GUI extends JFrame {
                     graphAlgo.init(graph);
                     graph = (Graph) graphAlgo.getGraph();
                     f.setVisible(false);
+                    f.remove(frame);
                     frame = new NewFrame(graph);
                     f.add(frame);
                     f.setVisible(true);
@@ -187,16 +190,20 @@ public class GUI extends JFrame {
                 int node2 = Integer.parseInt(dialogP);
                 Node n1 = (Node) graphAlgo.getGraph().getNode(node1);
                 Node n2 = (Node) graphAlgo.getGraph().getNode(node2);
+                Edge edge = (Edge) graph.getEdge(node1,node2);
+                if (edge == null)
+                    JOptionPane.showMessageDialog(frame, "one of the nodes do not exist!,make sure to insert src and dest in the right order!!!");
                 if (n1 == null || n2 == null)
                     JOptionPane.showMessageDialog(frame, "one of the nodes do not exist!");
                 else {
-                graph.removeEdge(node1,node2);
-                f.setVisible(false);
-                graphAlgo.init(graph);
-                graph = (Graph) graphAlgo.getGraph();
-                frame = new NewFrame(graph);
-                f.add(frame);
-                f.setVisible(true);
+                    graph.removeEdge(node1,node2);
+                    graphAlgo.init(graph);
+                    graph = (Graph) graphAlgo.getGraph();
+                    f.setVisible(false);
+                    f.remove(frame);
+                    frame = new NewFrame(graph);
+                    f.add(frame);
+                    f.setVisible(true);
                 }}
         });
         Graph.add(remove_edge);
