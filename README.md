@@ -30,3 +30,9 @@ we implemented some test on our classes in the project. you can use the or see t
 our function "shortestPathDist" to calculate the shortest path from source node to another is still on working progress so it not gourenting to work and the all other algorithem use that function to calculate so they also in devlopment level.
 that why we didnt add yet a report and a result for running time on big graphs like 10000,100000 and so on....
 tzach and yohanan - the devlopment team of the project.
+
+# gui:
+you can use graphic program that show you the graph and demonstrate him.
+you can save or load graphs in the menu in the button "SAVE\LOAD"
+you can edit the grpah nodes and edge on pressing the "GRAPH" button
+and you can use our algorithm under the button "ALGORITHM". 
