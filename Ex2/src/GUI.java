@@ -12,6 +12,9 @@ public class GUI extends JFrame {
 
     JFrame f;
     NewFrame frame;
+    Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+    int HEIGHT = (int) (size.height/1.5);
+    int WIDTH = (int) (size.width/1.5);
     JMenuBar mb;
     JMenu save_load;
     JMenu algorithm;
@@ -60,10 +63,6 @@ public class GUI extends JFrame {
         center = new JMenuItem("center");
         tsp = new JMenuItem("tsp");
 
-
-
-
-
         save.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -83,10 +82,16 @@ public class GUI extends JFrame {
                 if (chooser.showOpenDialog(frame)==JFileChooser.APPROVE_OPTION)
                 {
                     graphAlgo.load(chooser.getSelectedFile().getAbsolutePath());
-                    setVisible(false);
+                    f.setVisible(false);
+                    graph = (Graph) graphAlgo.getGraph();
+                    graphAlgo.init(graph);
+                    frame = new NewFrame(graph);
+                    f.add(frame);
+                    f.setVisible(true);
                 }
             }
-        });
+        }
+        );
         save_load.add(load);
 
         add_node.addActionListener(new ActionListener() {
@@ -110,9 +115,13 @@ public class GUI extends JFrame {
                     graph.removeNode(key);
                     graph.addNode(tmp);
             }
-                setVisible(false);
+                f.setVisible(false);
                 graphAlgo.init(graph);
-        }
+                graph = (Graph) graphAlgo.getGraph();
+                frame = new NewFrame(graph);
+                f.add(frame);
+                f.setVisible(true);
+            }
     });
         Graph.add(add_node);
 
@@ -139,9 +148,13 @@ public class GUI extends JFrame {
                     graph.removeEdge(node1,node2);
                     graph.connect(node1,node2,w);
                 }
-                setVisible(false);
+                f.setVisible(false);
                 graphAlgo.init(graph);
-            }}
+                graph = (Graph) graphAlgo.getGraph();
+                frame = new NewFrame(graph);
+                f.add(frame);
+                f.setVisible(true);
+                }}
         });
         Graph.add(add_edge);
 
@@ -155,8 +168,12 @@ public class GUI extends JFrame {
                     JOptionPane.showMessageDialog(frame, "the node does not exist!");
                 else {
                     graph.removeNode(node1);
-                    setVisible(false);
                     graphAlgo.init(graph);
+                    graph = (Graph) graphAlgo.getGraph();
+                    f.setVisible(false);
+                    frame = new NewFrame(graph);
+                    f.add(frame);
+                    f.setVisible(true);
                 }}
         });
         Graph.add(remove_node);
@@ -173,12 +190,14 @@ public class GUI extends JFrame {
                 if (n1 == null || n2 == null)
                     JOptionPane.showMessageDialog(frame, "one of the nodes do not exist!");
                 else {
-                dialogP = JOptionPane.showInputDialog(frame, "enter the edge weight. example : 5.2", null);
-                double w = Double.parseDouble(dialogP);
-                graph.connect(node1,node2,w);
-                setVisible(false);
+                graph.removeEdge(node1,node2);
+                f.setVisible(false);
                 graphAlgo.init(graph);
-            }}
+                graph = (Graph) graphAlgo.getGraph();
+                frame = new NewFrame(graph);
+                f.add(frame);
+                f.setVisible(true);
+                }}
         });
         Graph.add(remove_edge);
 
@@ -262,14 +281,15 @@ public class GUI extends JFrame {
         mb.add(Graph);
         mb.add(algorithm);
         f.setJMenuBar(mb);
-        f.setSize(500, 500);
+        f.setSize(WIDTH, HEIGHT);
         f.setTitle("Ex2 - Graphs");
         f.setLayout(new BorderLayout());
+        graph = (graph.Graph) graphAlgo.getGraph();
+        graphAlgo.init(graph);
         frame = new NewFrame(graph);
         f.add(frame);
         f.setVisible(true);
         f.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        repaint();
 
     }
 
