@@ -1,7 +1,8 @@
-package api;
+package tests;
 import java.util.Iterator;
 import static org.junit.jupiter.api.Assertions.*;
 import graph.*;
+import api.*;
 import org.junit.jupiter.api.Test;
 
 class DirectedWeightedGraphTest {
@@ -62,7 +63,8 @@ class DirectedWeightedGraphTest {
             graph.addNode(node_0);
             graph.addNode(node_1);
             graph.addNode(node_2);
-            Iterator<NodeData> iterNode = graph.nodeIter();
+            Iterator<
+                    NodeData> iterNode = graph.nodeIter();
             while (iterNode.hasNext()) {
                 i++;
                 iterNode.next();
