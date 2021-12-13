@@ -13,10 +13,9 @@ import java.io.FileReader;
 import java.io.IOException;
 
 
-
 public class Graph_Algo implements DirectedWeightedGraphAlgorithms {
     private Graph graph;
-
+    public static int flag = 0;
     public Graph_Algo() {
         this.graph = new Graph();
         }
@@ -52,20 +51,23 @@ public class Graph_Algo implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public boolean isConnected() {
-        int count = 0;
-        boolean[] visited = new boolean[graph.nodeSize()];
+
+        boolean ans = false;
+        boolean [] visited = new boolean[graph.nodeSize()];
+        int a = graph.nodeSize();
+        Graph g = (Graph) this.copy();
         for (int i = 0; i < graph.nodeSize(); i++)
             visited[i] = false;
-        count = dfs(graph, 0, visited,count);
-        if(count < graph.nodeSize()){
+        ans = dfs(g, 0, visited,0);
+        if(flag == 0){
             return false;
         }
         Graph reversedGr = reversedGraph(graph);
-        count = 0;
+        flag = 0;
         for (int i = 0; i < graph.nodeSize(); i++)
             visited[i] = false;
-        count = dfs(reversedGr, 0, visited,count);
-        return count >= graph.nodeSize();
+        ans = dfs(reversedGr, 0, visited,0);
+        return (flag == 1);
     }
 
     public Graph reversedGraph(Graph graph) {
@@ -75,7 +77,7 @@ public class Graph_Algo implements DirectedWeightedGraphAlgorithms {
             Node node = (Node) nodes.next();
             reversedGr.addNode(node);
         }
-        Iterator edges = graph.nodeIter();
+        Iterator edges = graph.edgeIter();
         while (edges.hasNext()){
             Edge edge = (Edge) edges.next();
             reversedGr.connect(edge.getSrc(),edge.getDest(),edge.getWeight());
@@ -83,19 +85,23 @@ public class Graph_Algo implements DirectedWeightedGraphAlgorithms {
         return reversedGr;
     }
 
-    public static int dfs (DirectedWeightedGraph graph, int v, boolean[] visited, int counter) {
+    public static boolean dfs (DirectedWeightedGraph graph, int v, boolean[] visited, int counter) {
         {
             visited[v] = true;
             Iterator<EdgeData> edges = graph.edgeIter(v);
             while (edges.hasNext()) {
-                int dest = edges.next().getDest();
+                Edge edge = (Edge) edges.next();
+                int dest = edge.getDest();
                 if (!visited[dest]) {
                     counter++;
-                    dfs(graph, dest, visited, counter);
                 }
+                graph.removeEdge(edge.getSrc(),dest);
+                dfs(graph, dest, visited, counter);
             }
         }
-    return counter;
+        if (counter>=graph.nodeSize()-1)
+            flag = 1;
+    return counter > graph.nodeSize();
     }
 
 
