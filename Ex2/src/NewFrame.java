@@ -2,24 +2,19 @@ import api.*;
 import graph.*;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.awt.Graphics2D;
-import java.awt.geom.Ellipse2D;
 
 public class NewFrame extends JPanel {
-    Graph_Algo graphAlgo;
     Graph graph;
     Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
     int HEIGHT = (int) (size.height/1.5);
     int WIDTH = (int) (size.width/1.5);
 
     public NewFrame(Graph graph) {
-        this.graphAlgo = new Graph_Algo();
         this.graph = graph;
-        this.graphAlgo.init((DirectedWeightedGraph) graph);
-        this.graph = (Graph) graphAlgo.getGraph();
+        //this.graph = (Graph) graphAlgo.getGraph();
     }
 
     public void paint(Graphics g) {
@@ -37,16 +32,15 @@ public class NewFrame extends JPanel {
         double Xmax = findMax(xEdges);
         double Ymax = findMax(yEdges);
         nodeIter = graph.nodeIter();
-        graphAlgo.init(graph);
         Iterator<EdgeData> edgeIter = graph.edgeIter();
         while (nodeIter.hasNext()) {
             NodeData node = nodeIter.next();
             drawPoints(node,pen,Xmin,Xmax,Ymin,Ymax);
         }
-            while (edgeIter.hasNext()) {
-                EdgeData edge = edgeIter.next();
-                drawEdges(edge,pen,Xmin,Xmax,Ymin,Ymax);
-            }
+        while (edgeIter.hasNext()) {
+            EdgeData edge = edgeIter.next();
+            drawEdges(edge,pen,Xmin,Xmax,Ymin,Ymax);
+        }
         this.setVisible(true);
     }
     private void drawPoints(NodeData node, Graphics2D pen, double Xmin, double Xmax, double Ymin, double Ymax) {
@@ -75,20 +69,23 @@ public class NewFrame extends JPanel {
         screen = (HEIGHT-300);
         double ySrc =(yPoint/yRange) * screen +100;
         Node dest = (Node) graph.getNode(edge.getDest());
-         xPoint = (dest.getLocation().x() - Xmin);
-         yRange = (Ymax-Ymin);
-         yPoint = (Ymax-dest.getLocation().y());
-         screen = (WIDTH-300);
+        xPoint = (dest.getLocation().x() - Xmin);
+        yRange = (Ymax-Ymin);
+        yPoint = (Ymax-dest.getLocation().y());
+        screen = (WIDTH-300);
         double xDest =(xPoint/xRange) * screen +100;
         screen = (HEIGHT-300);
         double yDest =(yPoint/yRange) * screen +100;
         pen.setColor(Color.black);
         pen.drawLine((int) xSrc, (int) ySrc, (int) xDest, (int) yDest);
-        Double weight = edge.getWeight();
-        String direction = weight.toString().substring(0, weight.toString().indexOf(".") + 3);
-        pen.setFont(new Font("arial", Font.BOLD , 17));
-        pen.setColor(Color.blue);
-        pen.drawString(src.getKey()+"to"+dest.getKey()+""+String.valueOf(direction),(int) xSrc,(int) ySrc + 30 );
+//        Double w = edge.getWeight();
+//        String direction = w.toString();
+//        direction =direction.substring(0, w.toString().indexOf(".") + 2);
+//        direction = src.getKey()+"to"+dest.getKey()+":       "+direction;
+//        pen.setFont(new Font("arial", Font.BOLD , 17));
+//        pen.setColor(Color.blue);
+//        System.out.println(direction);
+//        pen.drawString(direction,(int) xSrc,(int) ySrc-30);
     }
 
     private double findMin(ArrayList<Double> Edges) {
@@ -111,9 +108,9 @@ public class NewFrame extends JPanel {
         return edge;
     }
 
-        @Override
-        protected void paintComponent (Graphics g){
-            super.paintComponent(g);
-        }
+    @Override
+    protected void paintComponent (Graphics g){
+        super.paintComponent(g);
     }
+}
 
