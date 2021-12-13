@@ -1,8 +1,10 @@
-package api;
+package tests;
 import graph.Location;
 import graph.Node;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import graph.*;
+import api.*;
 
 public class GeoLocationTest {
     @Test
