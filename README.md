@@ -21,18 +21,18 @@ For run the code you can download the jar from Ex2/Ex2.jar. Then, you will find 
 You need to run in cmd the code "java -jar Ex2.jar G2.json" (G2.json as an example).
 You have 3 json file for example and for sure you can load json files as you want in the same formate.
 You can also add nodes and edges or remove some as you want in the code and use our base for graph like "G1.json" that we loaded as deafult.
-for that you can enter in the cmd window the next code  - "java -jar Ex2.jar" and the program will show you a gruph (G1) as deafult.
-you can download our projact and enjoy the feautre as we mention before.
+For that you can enter in the cmd window the next code  - "java -jar Ex2.jar" and the program will show you a gruph (G1) as deafult.
+You can download our projact and enjoy the feautre as we mention before.
 
-# test:
-we implemented some test on our classes in the project. you can use the or see them as you want.
+# Test:
+we implemented some tests on our classes in the project. You can use or see them as you want.
 
-our function "shortestPathDist" to calculate the shortest path from source node to another is still on working progress so it not gourenting to work and the all other algorithem use that function to calculate so they also in devlopment level.
-that why we didnt add yet a report and a result for running time on big graphs like 10000,100000 and so on....
-tzach and yohanan - the devlopment team of the project.
+Our function "shortestPathDist" to calculate the shortest path from source node to another is still on working progress, so it is not gourenting to work and the all other algorithms use that function to calculate, so they also in devlopment level.
+That why we didn't add yet a report and a result for running time on big graphs like 10000,100000 and so on....
+Tzach and Yohanan - the devlopment team of the project.
 
-# gui:
-you can use graphic program that show you the graph and demonstrate him.
-you can save or load graphs in the menu in the button "SAVE\LOAD"
-you can edit the grpah nodes and edge on pressing the "GRAPH" button
-and you can use our algorithm under the button "ALGORITHM". 
+# Gui:
+You can use graphic program that show you the graph and demonstrate it.
+You can save or load graphs in the menu in the button "SAVE\LOAD".
+You can edit the grpah nodes and edges on pressing the "GRAPH" button.
+And you can use our algorithm under the button "ALGORITHM". 
