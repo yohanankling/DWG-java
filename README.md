@@ -1,5 +1,4 @@
 # oop_Ex2
-# Important! for load and save you must to import the jar in src folder!
 # Assignment of oop_Ex2
 https://docs.google.com/document/d/17h5VGIHtqWHrzgoRjH05_PjHgCn8-EDcecrkR9sVChQ/edit
 # Directed Weighted Graph
@@ -16,3 +15,14 @@ Features of our algorithm :
 - Showing the graph in gui window with some menu options.
 
 In this code we used Dijkstra Algorithm to find if the graph is connected and get the shortest path.
+
+# runnin the code :
+for runing the code you can download the jar from out/artifacts/Ex2_jar/Ex2.jar. you will find 4 files - 1 jar and 3 json files.
+you need to runing in cmd the code "java -jar Ex2.jar G2.json" (G2.json as an example).
+you have 3 json file for example and for sure you can load json file as you want in the same formate or adding nodes and edge as you want in the code and use our base for code like G1.json for that you can enter in the cmd window the next code  - "java -jar Ex2.jar" and the program will show you a gruph (G1) as deafult.
+you can download our projact and enjoy the feautre as we mention before and remember to thank tzach and yohanan - the devlopment team of the project.
+
+our function "shortestPathDist" to calculate the shortest path from source node to another is still on working progress so it not gourenting to work and the all other algorithem use that function to calculate so they also in devlopment level.
+that why we didnt add yet a report and a result for running time on big graphs like 10000,100000 and so on....
+we do our effort to make it work but now it didnt ready yet.
+our best regard; tzach and yohanan.
